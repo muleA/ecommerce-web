@@ -1,0 +1,53 @@
+[
+    {
+      "id": 1,
+      "name": "Restaurant A",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "image": "https://example.com/restaurantA.jpg",
+      "location": "City A",
+      "rating": 4.5,
+      "reviews": 100,
+      "cuisine": "Italian"
+    },
+    {
+      "id": 2,
+      "name": "Restaurant B",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "image": "https://example.com/restaurantB.jpg",
+      "location": "City B",
+      "rating": 4.2,
+      "reviews": 80,
+      "cuisine": "Mexican"
+    },
+    {
+      "id": 3,
+      "name": "Restaurant C",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "image": "https://example.com/restaurantC.jpg",
+      "location": "City C",
+      "rating": 4.7,
+      "reviews": 120,
+      "cuisine": "Japanese"
+    },
+    {
+      "id": 4,
+      "name": "Restaurant D",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "image": "https://example.com/restaurantD.jpg",
+      "location": "City D",
+      "rating": 4.4,
+      "reviews": 90,
+      "cuisine": "Indian"
+    },
+    {
+      "id": 5,
+      "name": "Restaurant E",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "image": "https://example.com/restaurantE.jpg",
+      "location": "City E",
+      "rating": 4.9,
+      "reviews": 150,
+      "cuisine": "Chinese"
+    }
+  ]
+  
