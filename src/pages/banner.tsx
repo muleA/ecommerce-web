@@ -24,7 +24,7 @@ export default function Carousel() {
   };
   return (
     <>
-      {!session && (
+      {session && (
         <div
           className={`relative mb-2 hidden w-full overflow-hidden  mx-auto  overflow-hidden bg-gradient-to-l from-sky-300 to-sky-50  md:block`}
         >

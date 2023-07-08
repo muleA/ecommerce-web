@@ -1,5 +1,8 @@
+import { MyProfileInfo } from "../pages/login/edit-profile"
+
 export const MyProfile=()=>{
     return(<>
-    profile list
+<MyProfileInfo/>
+
     </>)
 }

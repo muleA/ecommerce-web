@@ -1,11 +1,40 @@
-import { Form, Input, Button, Upload, Row, Col } from 'antd';
+import { Form, Input, Button, Upload, Row, Col, message } from 'antd';
 import { RegistrationSVG } from './registration-svg';
+import { baseUrl } from '../../configs/config';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const { Item } = Form;
 
 export const Registration = () => {
-  const onFinish = (values: any) => {
+  const navigate=useNavigate()
+  const onFinish = async (values: any) => {
     console.log('Received values:', values);
+    const formData = new FormData();
+    formData.append('email', values?.email);
+    formData.append('firstName', values?.firstName);
+    formData.append('lastName', values?.lastName);
+    formData.append('password', values?.password);
+    formData.append('phoneNumber', values?.phoneNumber);
+    formData.append('profilePicture', values?.profilePicture);
+
+    try {
+      const response = await axios.post(`${baseUrl}auth/signup`, formData, {
+        headers: {
+          'X-DOMAIN': 'Restaurant',
+          'X-Tenant': 'Restaurant',
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
+      // Handle response
+      console.log('Response:', response.data);
+      message.success('Successfully registered');
+      navigate("/dashboard")
+    } catch (err) {
+      console.error('Error:', err);
+      message.error('An error occurred during registration');
+    }
   };
 
   const beforeUpload = (file: any) => {
@@ -29,23 +58,26 @@ export const Registration = () => {
               <Form onFinish={onFinish} layout='vertical' >
                     <div className="flex items-center ">
                       <Item
-                        label="Restaurant Name"
-                        name="name"
+                        label="First Name"
+                        name="firstName"
 
                         rules={[{ required: true, message: 'Please enter your Restaurant name' }]}
                       >
                         <Input className="w-full"  />
                       </Item>
                     </div>
-                    <div className="flex items-center space-x-10">
+                    <div className="flex items-center ">
                       <Item
-                        label="Description"
-                        name="Description"
-                        rules={[{ required: true, message: 'Please enter your Description' }]}
+                        label="Last Name"
+                        name="lastName"
+
+                        rules={[{ required: true, message: 'Please enter your Restaurant name' }]}
                       >
-                        <Input className="w-full" />
+                        <Input className="w-full"  />
                       </Item>
                     </div>
+                   
+                  
                     <div className="flex items-center space-x-4">
                       <Item
                         label="Email"
@@ -61,7 +93,7 @@ export const Registration = () => {
                     <div className="flex items-center space-x-4">
                       <Item
                         label="Phone Number"
-                        name="phone"
+                        name="phoneNumber"
                         className='space-x-10'
 
                         rules={[{ required: true, message: 'Please enter your phone number' }]}
@@ -101,7 +133,7 @@ export const Registration = () => {
                         <Input.Password className="w-full" />
                       </Item>
                     </div> */}
-                    <div className="flex items-center space-x-4">
+                   {/*  <div className="flex items-center space-x-4">
                       <Item
                         label="Address"
                         name="Address"
@@ -113,11 +145,11 @@ export const Registration = () => {
                       >
                         <Input className="w-full" />
                       </Item>
-                    </div>
+                    </div> */}
                     <div className="flex items-center space-x-4">
                       <Item
-                        label="Logo"
-                        name="logo"
+                        label="ProfilePicture"
+                        name="profilePicture"
                         className='space-x-10'
                         rules={[
                           { required: true, message: 'Please upload your logo' },

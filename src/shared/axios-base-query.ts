@@ -18,7 +18,7 @@ export const axiosBaseQuery =
   > =>
   async ({ url, method, data, params }) => {
     const session = getCurrentSession();
-    console.log("session",session.access_token)
+    console.log("session",session)
     try {
       const config: AxiosRequestConfig = {
         url: baseUrl + url,
@@ -27,12 +27,17 @@ export const axiosBaseQuery =
         params: params,
       };
       /*  */
-      console.log("session",session)
       if (session?.accessToken) {
         axios.defaults.headers.common[
           'Authorization'
-        ] = `Bearer ${session?.accessToken}`;
+        ] = `Bearer ${session.accessToken.data.token}`;
+        axios.defaults.headers.common[
+          'X-DOMAIN'
+        ] = `System`;
       }
+      axios.defaults.headers.common[
+        'X-DOMAIN'
+      ] = `System`;
       const result = await axios(config);
       return { data: result.data };
     } catch (axiosError) {

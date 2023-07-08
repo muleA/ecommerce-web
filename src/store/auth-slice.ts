@@ -40,12 +40,20 @@ export function logIn(request: LoginRequest) {
     try {
       dispatch(setLoading(true)); // Start loading
 
+      const config = {
+        headers: {
+          "X-Domain": "System",
+          "X-Tenant": "System",
+        },
+      };
       const response = await axios.post(
         `${baseUrl}auth/login`,
       request,
+      config
       );
-      console.log("response gtt",response)
-      dispatch(setSession({ accessToken: response.data.access_token, userInfo:response.data.access_token}));
+
+      console.log("response gtt",response?.data?.data)
+      dispatch(setSession({ accessToken: response.data, userInfo: response?.data?.data?.user }));
     } catch (error: any) {
       // Handle error
     } finally {
@@ -53,6 +61,7 @@ export function logIn(request: LoginRequest) {
     }
   };
 }
+
 
 export const { setSession, logOut, setLoading } = authSlice.actions;
 

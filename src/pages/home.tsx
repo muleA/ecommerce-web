@@ -6,7 +6,8 @@ import LoginForm from "./login/login-form";
 import Carousel from "./banner";
 import HowItWorks from "./how-it-works";
 import { Registration } from "./login/registration";
-import { Login } from "./login/log";
+import { useTranslation } from "react-i18next";
+import { useAuth } from "../shared/auth/use-auth";
 
 const { Header, Content, Footer } = Layout;
 
@@ -20,15 +21,21 @@ const HomePage = () => {
   };
 
   const { Option } = Select;
+  const { i18n } = useTranslation();
 
-  const handleChange = (value: any) => {
-    console.log(`Selected language: ${value}`);
-  };
+  const handleChange = (event: any) => {
+    const selectedLanguage = event;
+
+    i18n.changeLanguage(selectedLanguage);  };
+
+const {t}=useTranslation()
 
   const handleMenuClick = (key: React.SetStateAction<string>) => {
     setActiveMenuKey(key);
     // You can perform additional actions based on the menu click here
   };
+  const {session}=useAuth()
+  console.log("session",session)
 
   return (
     <Layout className="min-h-screen bg-primary-100">
@@ -44,7 +51,7 @@ const HomePage = () => {
             selectedKeys={[activeMenuKey]}
             onClick={({ key }) => handleMenuClick(key)}
           >
-            <Menu.Item key="1">Home</Menu.Item>
+            <Menu.Item key="1">{t("home")}</Menu.Item>
             <Menu.Item key="2">Discover</Menu.Item>
             <Menu.Item key="3">About Us</Menu.Item>
             
@@ -58,6 +65,8 @@ const HomePage = () => {
             >
               <Option value="en">English</Option>
               <Option value="am">አማርኛ</Option>
+              <Option value="or">Oromiffa</Option>
+            <Option value="so">Somali</Option>
               {/* Add more language options as needed */}
             </Select>
             <Button
@@ -95,7 +104,7 @@ const HomePage = () => {
         )}
         {activeMenuKey === "3" && <h1>About Us Page</h1>}
         {activeMenuKey === "4" && <Registration />}
-        {activeMenuKey === "5" && <Login />}
+        {activeMenuKey === "5" && <LoginForm />}
 
       </Content>
       <Footer className="text-center bg-white py-2 text-primary">

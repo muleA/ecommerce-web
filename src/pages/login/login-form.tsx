@@ -5,18 +5,19 @@ import * as Yup from 'yup';
 import { useAuth } from '../../shared/auth/use-auth';
 import { useNavigate } from 'react-router-dom';
 import { UserAddOutlined } from '@ant-design/icons';
+import { LoginSVG } from './login-svg';
 
 const LoginForm = () => {
   const { submitLoginRequest, session } = useAuth();
   const router = useNavigate();
 
   const initialValues = {
-    username: '',
+    email: '',
     password: '',
   };
 
   const validationSchema = Yup.object({
-    username: Yup.string().required('Username is required'),
+    email: Yup.string().required('email is required'),
     password: Yup.string().required('Password is required'),
   });
 
@@ -30,23 +31,22 @@ const LoginForm = () => {
   });
 
   return (
-    {/* <Card className='text-center mx-auto mx-72 w-50 mt-10'>
+    <Card className='text-center mx-auto mx-72 w-50 mt-10'>
       <div className="flex flex-col items-center">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Login</h1>
       </div>
       <div className="p-4 w-50 mx-auto flex ">
         <div className='w-1/3'>
-          <img src="/4957136.jpg"alt="login Image"/>
-        </div>
+<LoginSVG/>        </div>
         <div className='mt-20 w-2/3'>
         <Form layout="vertical" className='w-2/3' onFinish={formik.handleSubmit}>
           <Form.Item
             label="Email"
-            name="username"
-            validateStatus={formik.errors.username ? 'error' : ''}
-            help={formik.errors.username}
+            name="email"
+            validateStatus={formik.errors.email ? 'error' : ''}
+            help={formik.errors.email}
           >
-            <Input value={formik.values.username} onChange={formik.handleChange} />
+            <Input value={formik.values.email} onChange={formik.handleChange} />
           </Form.Item>
           <Form.Item
             label="Password"
@@ -66,7 +66,7 @@ const LoginForm = () => {
         </div>
        
       </div>
-    </Card> */}
+    </Card> 
 
  
 

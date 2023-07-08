@@ -12,12 +12,16 @@ import {
   import HomePage from "../pages/home"; 
 import Sidebar from "../shared/shell/sidebar";
 import { MyProfile } from "./my-profile";
-import { MyOrders } from "./my-orders";
-import { MyMenus } from "./my-menus";
+import { MyOrderList } from "./order/order-list";
+import { MyMenuLists } from "./menu/menu-list";
+import OrderNotificationsPage from "./notifications";
+import { Dashboard } from "../pages/dashboard";
   const { Sider, Content, Header, Footer } = Layout;
   const { SubMenu } = Menu;
   
   const LayoutWrapper = ({ children }: any) => {
+    const {session}=useAuth()
+console.log("session at layout",session)
     const [collapsed, setCollapsed] = useState(false);
     const { logOut } = useAuth();
     const handleLogOut = (): void => {
@@ -53,8 +57,7 @@ import { MyMenus } from "./my-menus";
     const formattedDate = `${currentDate.toLocaleString("en-us", {
       month: "short",
     })} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
-    const { session } = useAuth();
-    console.log("session", session?.userInfo?.userName);
+    
   
     return (
       <div className="flex bg-gray-100 text-sm">
@@ -126,13 +129,14 @@ import { MyMenus } from "./my-menus";
             </div>
             <div className="py-2 min-h-screen">
               {children}
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/menus" element={<MyMenus />} />
-                <Route path="/orders" element={<MyOrders />} />
+             {/*  <Routes>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/notification" element={<OrderNotificationsPage/>}/>
+                <Route path="/menus" element={<MyMenuLists />} />
+                <Route path="/orders" element={<MyOrderList />} />
                 <Route path="/my-profile" element={<MyProfile />} />
-                {/* Add more routes here */}
-              </Routes>
+                {/* Add more routes here 
+              </Routes> */}
             </div>
           </Content>
           <Footer className="mx-auto text-center ">

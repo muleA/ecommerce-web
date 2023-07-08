@@ -1,11 +1,11 @@
 import * as Icon from "@ant-design/icons";
 import { Menu } from "../../models/menu";
 export const menus: Menu[] = [
-    {
+   /*  {
         name: "Home",
         path: "/home",
         icon: Icon.HomeOutlined,
-    },
+    }, */
     {
         name: "Dashboard",
         path: "/dashboard",
@@ -27,6 +27,11 @@ export const menus: Menu[] = [
         icon: Icon.MedicineBoxOutlined,
     },
     {
+      name: "Schedules",
+      path: "/schedule",
+      icon: Icon.FieldTimeOutlined,
+  },
+    {
       name: "Reviews",
       path: "/reviews",
       icon: Icon.CommentOutlined,
@@ -36,7 +41,7 @@ export const menus: Menu[] = [
     path: "/notification",
     icon: Icon.BellOutlined,
 },
-
+/* 
   {
     name: "Archives",
     path: "/archives",
@@ -50,6 +55,6 @@ export const menus: Menu[] = [
     icon: Icon.SettingFilled,
 
   
-  },
+  }, */
 
 ];
