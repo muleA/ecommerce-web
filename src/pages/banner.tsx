@@ -5,40 +5,28 @@ import { Button, Typography } from "antd";
 import Report from "./report";
 import { CustomerReviews } from "../shared/review";
 import { RightSideImage } from "../shared/right-side-svg";
+import { LottieAnimation } from "../shared/right-side-lottie";
 
 export default function Carousel() {
   const { session } = useAuth();
   const router = useNavigate();
-  const sliderSettings = {
-    className: "left-0 right-0",
-    variableWidth: true,
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    pauseOnHover: true,
-  };
+
   return (
     <>
-      {session && (
         <div
-          className={`relative mb-2 hidden w-full overflow-hidden  mx-auto  overflow-hidden bg-gradient-to-l from-sky-300 to-sky-50  md:block`}
+          className={`relative mb-2 hidden w-full overflow-hidden 
+           mx-auto  overflow-hidden bg-gradient-to-l from-sky-300 to-sky-50  md:block`}
         >
-         {/*  <div className="absolute left-0">
-                       <img src="./assets/images/left-hero.png" alt="img" />
+          <div className="absolute left-0">
+                       <img src="./assets/left-hero.png" alt="img" />
              
           </div>
           <div className="absolute right-0 ">
-                    <img src="./assets/img/left-hero.png" alt="img" />
+                    <img src="./assets/left-hero.png" alt="img" />
              
-          </div> */}
-          {/*           <Slider {...sliderSettings}>
-           */}{" "}
-          <div className="mx-auto mx-36 overflow-hidden" >
+          </div> 
+       
+          <div className="mx-auto  overflow-hidden" >
             <div className="flex h-96  w-full items-start justify-between">
               <div className="mt-2 ml-10 flex h-full w-6/12 items-center lg:mt-6">
                 <div style={{ fontFamily: "Raleway" }}>
@@ -67,15 +55,14 @@ with customers online? Look no further! Liyu Restaurants management System is he
                 </div>
               </div>
               <div className="mx-2 mt-2 overflow-hidden flex h-full w-6/12 items-center justify-end lg:mt-6">
-              <RightSideImage/>
+              <LottieAnimation/>
               </div>
             </div>
           </div>
           <div></div>
-          {/*           </Slider>
-           */}{" "}
+         
         </div>
-      )}
+      
  
       {!session && (
         <div className="mt-8 mb-8 grid w-full mx-6 grid-cols-2 items-center gap-1 py-2 pr-2 text-sm  lg:flex lg:justify-evenly lg:space-x-2 lg:px-4 ">
@@ -93,20 +80,7 @@ with customers online? Look no further! Liyu Restaurants management System is he
             number={111255}
             text="Registered Restaurants"
           />
-       {/*    <Report
-            className="group ml-2 min-w-full self-center rounded-tr-lg bg-primary px-3 md:bg-white lg:ml-0 lg:min-w-fit lg:rounded-lg lg:hover:bg-primary lg:hover:shadow-2xl lg:hover:shadow-primary"
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-8 fill-current text-white md:text-primary lg:group-hover:text-white"
-                viewBox="0 0 50 50"
-              >
-                <path d="M12 0C10.90625 0 10 0.90625 10 2L10 22C10 23.09375 10.90625 24 12 24L42 24C43.09375 24 44 23.09375 44 22L44 2C44 0.90625 43.09375 0 42 0 Z M 12 2L42 2L42 22L12 22 Z M 22.5 4C21.132813 4 20 5.132813 20 6.5C20 7.867188 21.132813 9 22.5 9L31.5 9C32.867188 9 34 7.867188 34 6.5C34 5.132813 32.867188 4 31.5 4 Z M 22.5 6L31.5 6C31.785156 6 32 6.214844 32 6.5C32 6.785156 31.785156 7 31.5 7L22.5 7C22.214844 7 22 6.785156 22 6.5C22 6.214844 22.214844 6 22.5 6 Z M 13.46875 28C10.632813 28 9.324219 28.6875 7.90625 29.25C5.199219 30.324219 0.5625 32.5625 0.5625 32.5625C0.195313 32.6875 -0.0625 33.015625 -0.105469 33.398438C-0.148438 33.785156 0.0351563 34.160156 0.367188 34.363281C0.695313 34.5625 1.113281 34.554688 1.4375 34.34375C1.4375 34.34375 6.109375 32.101563 8.65625 31.09375C10.214844 30.476563 10.921875 30 13.46875 30C19.085938 30 18.917969 32.527344 21.21875 33.90625C22.046875 34.402344 23.347656 34.785156 24.8125 35.15625C24.9375 35.226563 25.074219 35.269531 25.21875 35.28125C25.230469 35.285156 25.238281 35.277344 25.25 35.28125C26.902344 35.683594 28.65625 36 30 36C30.585938 36 31.089844 36.066406 31.5 36.15625C31.519531 36.15625 31.542969 36.15625 31.5625 36.15625C31.9375 36.246094 32.230469 36.371094 32.4375 36.5C32.875 36.777344 33 37.003906 33 37.5C33 38.082031 32.875 38.269531 32.4375 38.53125C32 38.792969 31.152344 39 30 39L24.1875 39C21.738281 39 18.28125 38.03125 18.28125 38.03125C17.746094 37.875 17.1875 38.183594 17.03125 38.71875C16.875 39.253906 17.183594 39.8125 17.71875 39.96875C17.71875 39.96875 21.246094 41 24.1875 41L30 41C31.351563 41 32.5 40.804688 33.4375 40.25C33.707031 40.089844 33.945313 39.890625 34.15625 39.65625C34.246094 39.625 34.328125 39.585938 34.40625 39.53125L43.40625 33.46875C44.964844 32.542969 46.046875 32.300781 46.6875 32.3125C47.328125 32.324219 47.546875 32.515625 47.75 32.78125C48.046875 33.167969 48.066406 33.386719 47.875 33.84375C47.683594 34.300781 47.152344 34.941406 46.1875 35.625C44.988281 36.476563 31.773438 45.257813 30.21875 46.15625C29.070313 46.820313 28.152344 47.542969 27.09375 47.84375C26.035156 48.144531 24.769531 48.121094 22.71875 47.125C21.351563 46.460938 15.5625 43.4375 13.6875 42.46875C12.652344 41.933594 11.800781 41.636719 10.90625 41.6875C10.011719 41.738281 9.230469 42.148438 8.4375 42.65625L5.75 44.40625C5.285156 44.707031 5.152344 45.332031 5.453125 45.796875C5.753906 46.261719 6.378906 46.394531 6.84375 46.09375L9.53125 44.34375C10.230469 43.898438 10.625 43.707031 11 43.6875C11.375 43.667969 11.886719 43.789063 12.78125 44.25C14.640625 45.210938 20.339844 48.207031 21.84375 48.9375C24.207031 50.085938 26.101563 50.183594 27.625 49.75C29.148438 49.316406 30.238281 48.445313 31.21875 47.875C33.300781 46.667969 45.839844 38.316406 47.34375 37.25C48.492188 36.4375 49.300781 35.585938 49.71875 34.59375C50.136719 33.601563 50.007813 32.429688 49.34375 31.5625C48.820313 30.878906 47.902344 30.335938 46.71875 30.3125C45.886719 30.296875 44.878906 30.601563 43.78125 31.09375C43.738281 30.890625 43.839844 30.664063 43.75 30.46875C43.410156 29.730469 42.632813 29.230469 41.78125 29.0625C40.667969 28.84375 39.40625 29.179688 38.15625 29.75C38.066406 29.476563 37.996094 29.183594 37.8125 28.96875C37.277344 28.328125 36.5 28.117188 35.78125 28.0625C34.347656 27.953125 32.859375 28.417969 31.78125 29.0625C30.285156 29.953125 25.8125 32.773438 25.15625 33.1875C23.820313 32.828125 22.605469 32.402344 22.25 32.1875C21.335938 31.636719 19.773438 28 13.46875 28 Z M 35.625 30.0625C36.023438 30.09375 36.226563 30.214844 36.28125 30.28125C36.324219 30.332031 36.40625 30.421875 36.375 30.71875L31.4375 34.09375C30.984375 34.023438 30.515625 34 30 34C29.472656 34 28.753906 33.90625 27.96875 33.78125C29.707031 32.6875 31.859375 31.347656 32.8125 30.78125C33.484375 30.382813 34.824219 30 35.625 30.0625 Z M 40.75 31C41.015625 30.976563 41.234375 30.964844 41.40625 31C41.820313 31.082031 41.871094 31.167969 41.9375 31.3125C41.984375 31.417969 42.007813 31.6875 41.96875 32.03125L34.90625 36.78125C34.734375 36.058594 34.316406 35.417969 33.71875 34.96875L37.84375 32.125C37.964844 32.0625 38.070313 31.980469 38.15625 31.875C39.050781 31.332031 40.039063 31.066406 40.75 31Z"></path>
-              </svg>
-            }
-            number={1540}
-            text="Available Licenses"
-          /> */}
+  
           <Report
             className="group ml-2 min-w-full self-center bg-primary px-3  md:bg-white lg:ml-0 lg:min-w-fit lg:rounded-lg lg:hover:bg-primary lg:hover:shadow-2xl lg:hover:shadow-primary"
             icon={
@@ -152,8 +126,13 @@ with customers online? Look no further! Liyu Restaurants management System is he
 
         </div>
       )}
-                          <div className="mx-72 mx-auto w-70 overflow-hidden" >
-                    <Typography className="font-bold 4xl " >Hear What Our Customer Says</Typography>
+
+<div className="mt-8 mb-8 grid w-full mx-6 grid-cols-2 items-center gap-1 py-2 pr-2 text-sm  lg:flex lg:justify-evenly lg:space-x-2 lg:px-4 ">
+                                           <h1 className="font-bold 5xl text-primary " >Hear What Our Customer Says</h1>
+
+                                           </div>
+<div className="mt-8 mb-8 grid w-full mx-6 grid-cols-2 items-center gap-1
+ py-2 pr-2 text-sm  lg:flex lg:justify-evenly lg:space-x-2 lg:px-2 ">
                    <CustomerReviews/>
 
 </div>        

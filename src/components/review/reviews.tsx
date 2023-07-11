@@ -2,14 +2,14 @@ import { useNavigate } from "react-router-dom";
 import React, { useMemo } from "react";
 import { MaterialReactTable } from 'material-react-table';
 import { MRT_ColumnDef } from 'material-react-table';
-import { useGetRoleByRoleIdQuery } from "./schedule.query";
 import { DefaultPage } from "../../shared/default-page";
 import { useAuth } from "../../shared/auth/use-auth";
+import { useGetSchedulesQuery } from "../../querys/ecommerce-query";
 
 export function Myreviews() {
   const navigate = useNavigate();
   const {session}=useAuth()
-  const { data: roles, isLoading, isSuccess, isError, isFetching } = useGetRoleByRoleIdQuery(session?.userInfo?._id);
+  const { data: roles, isLoading, isSuccess, isError, isFetching } = useGetSchedulesQuery(session?.userInfo?._id);
   const handleRowClick = (row: any) => {
     console.log("row",row)
     navigate(`/roles/detail/${row?.original.id}`);

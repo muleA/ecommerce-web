@@ -1,10 +1,23 @@
 {
-    "license": "ኤሌክትሮኒክስ የ ሙያ ፍቃድ አገልግሎት",
-    "search_licensee": "ፍቃድ ፈልግ",
-    "how_it_works": "እንደት ይሰራል?",
-    "about_us": "ስለኛ",
+    "good_after_noon": "እንደት ዋልክ",
+    "good_morning": "እንደት አደርክ",
+    "good_evening": "እንዴት ነህ",
+    "welcome": "እንኳን ወደ ምግቤቶች ገጽ በ ደህና መጡ።",
+    "home": "መነሻ",
+    "dashboard": "ዳሽቦርድ",
+    "role": "ሃላፊነቶች",
+    "permission": "ፈቃዶች",
     "login": "ግባ",
-    "sign_up": "ተመዝገብ",
-    "home":"መነሻ"
+    "user": "ተጠቃሚዎች",
+    "tag": "መለያውች",
+    "discount": "ቅናሽ",
+    "driver": "አሽከርካሪወች",
+    "driver_review": "የ አሽከርካሪወች ግምገማ",
+    "restaurant": "ምግቤቶች",
+    "restaurant_review": "የ ምግቤቶች ግምገማ",
+    "menu": "ምናሌ",
+    "food_item": "ምግብ እቃ",
+    "schedule": "የስራ መረሃግብር",
+    "delivery_range": "የ አቅርቦት ርቀት"
+  }
   
-}

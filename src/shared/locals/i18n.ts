@@ -3,6 +3,8 @@ import { initReactI18next } from 'react-i18next';
 
 import translationEN from './en/home.json'; // Import language file for English
 import translationFR from './am/home.json'; // Import language file for French
+import translationOr from './or/home.json'
+import translationSo from './so/home.json'
 
 // Set up i18n
 i18n
@@ -15,6 +17,13 @@ i18n
       am: {
         translation: translationFR, // Set amharic translations
       },
+      or: {
+        translation: translationOr, // Set amharic translations
+      },
+      so: {
+        translation: translationSo, // Set amharic translations
+      },
+
       // Add more languages as needed
     },
     lng: 'en', // Set the default language

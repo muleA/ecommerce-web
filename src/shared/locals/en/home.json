@@ -1,10 +1,23 @@
 {
-    "license": "Smart Health eLicense System",
+    "good_after_noon": "Good Afternoon",
+    "good_morning": "Good Morning",
+    "good_evening": "Good Evening",
+    "welcome":" Welcome to Liyu Restaurant System",
     "home": "Home",
-    "search_licensee":"Search Licensee(Holder)",
-    "how_it_works":"How it Works",
-    "about_us":"About Us",
+    "dashboard":"Dashboard",
+    "role":"Roles",
+    "permissions":"Permissions",
     "login":"Login",
-    "sign_up":"Sign Up"
+    "user":"Users",
+    "tag":"Tags",
+    "discount":"Discount",
+    "driver":"Driver",
+    "driver_reviews":"Driver Reviews",
+    "restaurant":"Restaurant",
+    "restaurant_review":"Restaurant Reviews",
+    "menu":"Menu",
+    "food_item":"Food Item",
+    "schedule":"Schedule",
+    "delivery_range":"Delivery Range"
   }
   

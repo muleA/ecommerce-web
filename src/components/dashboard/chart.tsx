@@ -1,40 +1,41 @@
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { useGetRoleByRoleIdQuery } from '../order/role.query';
 
 
 const Chart = ({ data }:any) => {
-/*   const { data: orders } = useGetRoleByRoleIdQuery("0");
-\  /* const chartData = orders?.data?.orders?.map((item: {
-    deliveryCharge: any;
-    amount: any;
-    createdAt: any; firstName: any; lastName: any; email: string | any[]; 
-}) => ({
-    name: `${item.amount}`,
-    value: item.deliveryCharge // Example: Use the email length as a value, you can modify this as per your requirements
-  })); */
+  const processDataForBarChart = (inputData: Array<any>) => {
+    let processedData: { [key: string]: number } = {};
+  
+    inputData?.forEach((item: { status: string | number; value: number }) => {
+      if (processedData[item.status]) {
+        processedData[item.status] += item.value;
+      } else {
+        processedData[item.status] = item.value;
+      }
+    });
+  
+    return Object.entries(processedData)?.map(([statusName, count]) => ({
+      name: statusName,
+      value: count,
+    }));
+  };
+  
+
+  const chartData = processDataForBarChart(data);
+
     return (
-      <div className="w-full">
-        <h2 className="text-xl mb-4">Orders Bar Chart (delivery charge,amount)</h2>
-        <BarChart width={500} height={300} data={[]}>
+      <div className="w-2/3">
+      <div className="bg-white p-5 rounded-2xl shadow-lg mr-4 mb-2">
+        <h2 className="text-xl mb-4"> Bar Chart (Orders, Menus, Sells, Reviews) </h2>
+        <BarChart width={600} height={400} data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />
-          <Tooltip />
+          <Tooltip labelStyle={{ color: '#8884d8' }} />
           <Legend />
           <Bar dataKey="value" fill="#8884d8" />
         </BarChart>
-   
-        <h2 className="text-xl  font-bold mt-8 mb-4">Line Chart</h2>
-        <LineChart width={500} height={300} data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="value" stroke="#8884d8" />
-        </LineChart> 
-
       </div>
+    </div>
     );
   };
   

@@ -14,7 +14,6 @@ import i18n from "./shared/locals/i18n";
 import { Dashboard } from "./pages/dashboard";
 import { MyMenuLists } from "./components/menu/menu-list";
 import { MyProfile } from "./components/my-profile";
-import { Login } from "./pages/login/log";
 import LoginForm from "./pages/login/login-form";
 import OrderDetail from "./components/order/detail.";
 import DetailMenu from "./components/menu/detail.";
@@ -25,16 +24,16 @@ import DetailSchedule from "./components/schedule/detail.";
 import NewSchedule from "./components/schedule/new-schedule";
 const App = () => {
   const { session } = useAuth();
-  console.log("session", session);
+  console.log("session at ", session);
 
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (session === null && location.pathname !== "/login") {
+    if (session === null && location.pathname !== "/") {
       navigate("/");
-    } else if (session && location.pathname === "/login") {
-      navigate("/home");
+    } else if (session && location.pathname === "/") {
+      navigate("/dashboard");
     }
   }, [session, location.pathname, navigate]);
   return (

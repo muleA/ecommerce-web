@@ -2,14 +2,14 @@ import { useNavigate } from "react-router-dom";
 import React, { useMemo } from "react";
 import { MaterialReactTable } from 'material-react-table';
 import { MRT_ColumnDef } from 'material-react-table';
-import { useGetRoleByRoleIdQuery } from "./role.query";
 import { DefaultPage } from "../../shared/default-page";
 import { useAuth } from "../../shared/auth/use-auth";
+import { useGetOrdersQuery } from "../../querys/ecommerce-query";
 
 export function MyOrderList() {
   const navigate = useNavigate();
   const {session}=useAuth()
-  const { data: roles, isLoading, isSuccess, isError, isFetching } = useGetRoleByRoleIdQuery(session?.userInfo?._id);
+  const { data: roles, isLoading, isSuccess, isError, isFetching } = useGetOrdersQuery(session?.userInfo?._id);
   const handleRowClick = (row: any) => {
     console.log("row",row)
     navigate(`/order/detail/${row?.original.id}`);

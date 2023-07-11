@@ -31,7 +31,7 @@ const LoginForm = () => {
   });
 
   return (
-    <Card className='text-center mx-auto mx-72 w-50 mt-10'>
+    <Card className='text-center mx-auto w-2/3 mx-72 w-50 mt-10'>
       <div className="flex flex-col items-center">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Login</h1>
       </div>

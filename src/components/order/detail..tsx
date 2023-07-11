@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Breadcrumb, Button, Card, Form, Modal, Select, message } from "antd";
-import { useGetRoleByRoleIdQuery } from "./role.query";
 import { PlusCircleFilled } from "@ant-design/icons";
 import CollapsibleCard from "../../shared/card";
 import DeliveryLocation from "./delivery-location";
+import { useGetRestaurantsQuery } from "../../querys/ecommerce-query";
 
 function OrderDetail() {
   const { id } = useParams();
-  const { data: role, isLoading: roleLoading } = useGetRoleByRoleIdQuery(
+  const { data: role, isLoading: roleLoading } = useGetRestaurantsQuery(
     id?.toString() ?? ""
   );
   const [isModalVisible, setIsModalVisible] = useState(false);

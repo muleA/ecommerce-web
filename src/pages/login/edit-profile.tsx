@@ -1,175 +1,162 @@
-import { Form, Input, Button, Upload, Row, Col, message } from 'antd';
-import { RegistrationSVG } from './registration-svg';
-import { baseUrl } from '../../configs/config';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {  Form, Input, Button, message, Spin, Upload, Card } from 'antd';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useCreateRestaurantMutation, useGetRestaurantsQuery, useLazyGetRestaurantsQuery, useUpdateRestaurantMutation } from '../../querys/ecommerce-query';
 
-const { Item } = Form;
+const MyProfileInfo = (props: { id?: string, mode: "new" | "update" }) => {
+  const [createRestaurant, { isLoading: isCreating }] = useCreateRestaurantMutation();
+  const [updateRestaurant, { isLoading: isUpdating }] = useUpdateRestaurantMutation();
+  const [trigger, { data: restaurant, isLoading: isDetailsLoading }] = useLazyGetRestaurantsQuery();
 
-export const MyProfileInfo = () => {
-  const navigate=useNavigate()
-  const onFinish = async (values: any) => {
-    console.log('Received values:', values);
-    const formData = new FormData();
-    formData.append('email', values?.email);
-    formData.append('firstName', values?.firstName);
-    formData.append('lastName', values?.lastName);
-    formData.append('password', values?.password);
-    formData.append('phoneNumber', values?.phoneNumber);
-    formData.append('profilePicture', values?.profilePicture);
+  // Define the form validation schema using Yup
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Name is required'),
+    logo: Yup.mixed().required('Logo is required'),
+    address: Yup.string().required('Address is required'),
+    owner: Yup.string().required('Owner is required'),
+    state: Yup.string().required('State is required'),
+    phoneNumber: Yup.string().required('Phone number is required'),
+    description: Yup.string().required('Description is required'),
+  });
 
+  const { id } = useParams();
+  console.log("id", id);
+  console.log("mode", id);
+  useEffect(() => {
+    if (id) {
+      trigger(id);
+    }
+  }, [id, trigger]);
+
+  // Define the form submission function
+  const handleSubmit = async (values: any) => {
     try {
-      const response = await axios.post(`${baseUrl}auth/signup`, formData, {
-        headers: {
-          'X-DOMAIN': 'System',
-          'Content-Type': 'multipart/form-data',
-
-        },
-      });
-  
-      // Handle response
-      console.log('Response:', response.data);
-      message.success('Successfully registered');
-      navigate("/dashboard")
-    } catch (err) {
-      console.error('Error:', err);
-      message.error('An error occurred during registration');
+      if (props.mode === 'new') {
+        await createRestaurant(values);
+        message.success('Restaurant created successfully');
+      } else if (props.mode === 'update') {
+        await updateRestaurant({ id: props.id, ...values });
+        message.success('Restaurant updated successfully');
+      }
+    } catch (error) {
+      message.error('Error occurred while saving restaurant');
     }
   };
 
-  const beforeUpload = (file: any) => {
-    // Validate and perform any necessary checks on the uploaded logo file
-    return true;
-  };
+  // Use Formik to handle form state and submission
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      logo: null,
+      address: '',
+      owner: '',
+      state: '',
+      phoneNumber: '',
+      description: '',
+    },
+    validationSchema,
+    onSubmit: handleSubmit,
+  });
 
+  // Fetch restaurant details when in "update" mode
+  useEffect(() => {
+    if (props.mode === 'update' && props.id) {
+      trigger(props.id);
+    }
+  }, [props.mode, props.id, trigger]);
+
+  // Update form data when restaurant details are fetched
+  console.log("restaurant", restaurant);
+  useEffect(() => {
+    if (props.mode === 'update' && restaurant) {
+      const { name, logo, address, owner, state, phoneNumber, description } = restaurant?.data?.restaurants;
+      formik.setValues({ name, logo, address, owner, state, phoneNumber, description });
+    }
+  }, [props.mode, restaurant, formik]);
 
   return (
-    <>
-      <div className="flex min-h-screen justify-center bg-whitet">
-        <div className="h-fit-content mb-10 w-full bg-white md:w-10/12">
-          <div className="mt-4 flex w-full items-center justify-center text-xl font-medium">
-My Profile          </div>
-          <div className="mb-2 flex w-full bg-white">
-           {/*  <div className="hidden w-1/2 p-6 text-white md:block">
-              <RegistrationSVG />
-            </div> */}
-            <div className="flex w-full px-2 md:w-full md:px-8">
-              <Form onFinish={onFinish} layout='vertical' >
-                    <div className="flex items-center ">
-                      <Item
-                        label="First Name"
-                        name="firstName"
-
-                        rules={[{ required: true, message: 'Please enter your Restaurant name' }]}
-                      >
-                        <Input className="w-full"  />
-                      </Item>
-                    </div>
-                    <div className="flex items-center ">
-                      <Item
-                        label="Last Name"
-                        name="lastName"
-
-                        rules={[{ required: true, message: 'Please enter your Restaurant name' }]}
-                      >
-                        <Input className="w-full"  />
-                      </Item>
-                    </div>
-                   
-                  
-                    <div className="flex items-center space-x-4">
-                      <Item
-                        label="Email"
-                        name="email"
-                        rules={[
-                          { required: true, message: 'Please enter your email' },
-                          { type: 'email', message: 'Please enter a valid email' },
-                        ]}
-                      >
-                        <Input type="email" className="w-full" />
-                      </Item>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <Item
-                        label="Phone Number"
-                        name="phoneNumber"
-                        className='space-x-10'
-
-                        rules={[{ required: true, message: 'Please enter your phone number' }]}
-                      >
-                        <Input className="w-full" />
-                      </Item>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <Item
-                        label="Password"
-                        className='space-x-10'
-
-                        name="password"
-                        rules={[{ required: true, message: 'Please enter your password' }]}
-                      >
-                        <Input.Password className="w-full" />
-                      </Item>
-                    </div>
-                  {/*   <div className="flex items-center space-x-4">
-                      <Item
-                        label="Confirm Password"
-                        name="confirmPassword"
-                        className='space-x-10'
-
-                        rules={[
-                          { required: true, message: 'Please confirm your password' },
-                          ({ getFieldValue }) => ({
-                            validator(_, value) {
-                              if (!value || getFieldValue('password') === value) {
-                                return Promise.resolve();
-                              }
-                              return Promise.reject('Passwords do not match');
-                            },
-                          }),
-                        ]}
-                      >
-                        <Input.Password className="w-full" />
-                      </Item>
-                    </div> */}
-                   {/*  <div className="flex items-center space-x-4">
-                      <Item
-                        label="Address"
-                        name="Address"
-                        className='space-x-10'
-
-                        rules={[
-                          { required: true, message: 'Please enter your Address' },
-                        ]}
-                      >
-                        <Input className="w-full" />
-                      </Item>
-                    </div> */}
-                    <div className="flex items-center space-x-4">
-                      <Item
-                        label="ProfilePicture"
-                        name="profilePicture"
-                        className='space-x-10'
-                        rules={[
-                          { required: true, message: 'Please upload your logo' },
-                        ]}
-                      >
-                        <Upload beforeUpload={beforeUpload}>
-                          <Button icon={<Upload />}>Upload Profile</Button>
-                        </Upload>
-                      </Item>
-                    </div>
-                   
-                <div className="mb-2 py-1 px-6">
-                  <Button type="primary" htmlType="submit" className="w-full bg-primary text-white">
-                    Update
-                  </Button>
-                </div>
-              </Form>
-            </div>
-          </div>
+    <div>
+      {isDetailsLoading ? (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <Spin size="large" />
         </div>
-      </div>
-    </>
+      ) : (
+        <Card  title="Register Your Restaurant Information">
+             <Form layout="vertical"  onFinish={formik.handleSubmit}>
+          {props.mode === 'new' && (
+            <Form.Item label="Logo" className='bg-white' required>
+              <Upload
+                accept="image/*"
+                name="logo"
+                listType="picture"
+                beforeUpload={(file) => {
+                  formik.setFieldValue('logo', file);
+                  return false;
+                }}
+              >
+                <Button>Select Logo</Button>
+              </Upload>
+              {formik.touched.logo && formik.errors.logo && (
+                <div className="text-red-500">{formik.errors.logo}</div>
+              )}
+            </Form.Item>
+          )}
+          <Form.Item label="Name" required>
+            <Input name="name" value={formik.values.name} onChange={formik.handleChange} />
+            {formik.touched.name && formik.errors.name && (
+              <div className="text-red-500">{formik.errors.name}</div>
+            )}
+          </Form.Item>
+          <Form.Item label="Address" required>
+            <Input name="address" value={formik.values.address} onChange={formik.handleChange} />
+            {formik.touched.address && formik.errors.address && (
+              <div className="text-red-500">{formik.errors.address}</div>
+            )}
+          </Form.Item>
+          <Form.Item label="Owner" required>
+            <Input name="owner" value={formik.values.owner} onChange={formik.handleChange} />
+            {formik.touched.owner && formik.errors.owner && (
+              <div className="text-red-500">{formik.errors.owner}</div>
+            )}
+          </Form.Item>
+          <Form.Item label="State" required>
+            <Input name="state" value={formik.values.state} onChange={formik.handleChange} />
+            {formik.touched.state && formik.errors.state && (
+              <div className="text-red-500">{formik.errors.state}</div>
+            )}
+          </Form.Item>
+          <Form.Item label="Phone Number" required>
+            <Input name="phoneNumber" value={formik.values.phoneNumber} onChange={formik.handleChange} />
+            {formik.touched.phoneNumber && formik.errors.phoneNumber && (
+              <div className="text-red-500">{formik.errors.phoneNumber}</div>
+            )}
+          </Form.Item>
+          <Form.Item label="Description" required>
+            <Input name="description" value={formik.values.description} onChange={formik.handleChange} />
+            {formik.touched.description && formik.errors.description && (
+              <div className="text-red-500">{formik.errors.description}</div>
+            )}
+          </Form.Item>
+          <Form.Item>
+            <div className='flex space-x-4'>
+              <Button type="primary" htmlType="submit" className='bg-primary' loading={isCreating || isUpdating}>
+                {props.mode === 'new' ? 'Save' : 'Update'}
+              </Button>
+              {props?.mode !== 'new' && (
+                <Button htmlType="button" className="hover:bg-red-400 hover:text-white text-white bg-red-600">
+                  Delete
+                </Button>
+              )}
+            </div>
+          </Form.Item>
+        </Form>
+        </Card>
+     
+      )}
+    </div>
   );
 };
+
+export default MyProfileInfo;

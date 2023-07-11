@@ -46,7 +46,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         <SubMenu
           key={menu.path}
           title={
-            <span>
+            <span className="flex justify-center items-center">
               <Icon style={{ marginRight: "5px",marginTop:"0px" }} />
               {menu.name}
             </span>
@@ -58,7 +58,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       {!menu.child && (
         <AntdMenu.Item key={`${mergedPath}${menu.path}`} className={`${location.pathname.startsWith(`${mergedPath}${menu.path}`) && `${mergedPath}${menu.path}` !== "/" ? "active-menu" : ""}`}>
           <Link to={`${mergedPath}${menu.path}`}>
-            <Icon style={{ marginRight: "5px" }} />
+            <Icon style={{ marginRight: "5px",marginTop:"2px" }} />
             {menu.name}
           </Link>
         </AntdMenu.Item>

@@ -17,6 +17,12 @@ export const customerReviews = [
         photoUrl: 'https://example.com/john.jpg',
         review: 'The food was amazing! Highly recommended.',
       },
+      {
+        id: 1,
+        name: 'Abebe Kebede',
+        photoUrl: 'https://example.com/john.jpg',
+        review: 'The food was amazing! Highly recommended.',
+      },
   
     // Add more review objects as needed
   ];

@@ -2,10 +2,10 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Checkbox, Button, Input, message } from 'antd';
 import * as Yup from 'yup';
-import { useCreateRoleMutation } from './schedule.query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DeleteFilled, SaveFilled } from '@ant-design/icons';
 import { Edit } from '@mui/icons-material';
+import { useCreateRestaurantMutation } from '../../querys/ecommerce-query';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
@@ -14,9 +14,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const RoleForm = (props: { mode: "new" | 'update', id?: string,data?:any }) => {
-  const [createRole, { isLoading }] = useCreateRoleMutation();
-  const [updateRole, { isLoading:updateLoading }] = useCreateRoleMutation();
-  const [deleteRole, { isLoading:deleteLoading }] = useCreateRoleMutation();
+  const [createRole, { isLoading }] = useCreateRestaurantMutation();
+  const [updateRole, { isLoading:updateLoading }] = useCreateRestaurantMutation();
+  const [deleteRole, { isLoading:deleteLoading }] = useCreateRestaurantMutation();
 const {id}=useParams()
   const navigate = useNavigate();
   const handleDelete=async ()=>{
