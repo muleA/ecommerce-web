@@ -16,7 +16,7 @@ const DashboardGreeting = (props:{userFullName:string}) => {
 
   return (
     <>
-    <h1>{greeting}<span className='text-primary'> {`${props?.userFullName}`},</span>  {t('welcome')}</h1>
+    <h1 >{greeting}<span className='text-primary'> {`${props?.userFullName}`},</span>  {t('welcome')}</h1>
 
     </>
 )}

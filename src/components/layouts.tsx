@@ -76,13 +76,13 @@ console.log("session at layout",session)
     
   
     return (
-      <div className="flex  text-lg border-r">
+      <div className="flex bg-primary-50 text-lg border-r">
       <Sider
           width={200}
           trigger={null}
           collapsible
           collapsed={collapsed}
-          className="border-r"
+          className="border-r bg-primary-50"
           theme="light"
         >
           <div className="flex flex-col  justify-center items-center py-1">
@@ -91,9 +91,9 @@ console.log("session at layout",session)
           <Sidebar />
         </Sider>
   
-        <div className="flex-1 bg-white" style={{ minHeight: "100vh" }}>
+        <div className="flex-1 bg-primary" style={{ minHeight: "100vh" }}>
         {/*  */}
-        <div className="flex items-center justify-between bg-gray-200  border-b h-14 shadow-2xl">
+        <div className="flex items-center justify-between bg-primary-50  border-b h-14 shadow-2xl">
           <div className="flex items-center">
             <div className="bg-primary mr-4 text-xs text-white rounded-full p-1">
               {React.createElement(
@@ -118,8 +118,11 @@ console.log("session at layout",session)
               className="w-30 text-primary bg-gray-100"
               suffixIcon={<DownOutlined />}
             >
+                            <Option value="am">አማርኛ</Option>
               <Option value="en">English</Option>
-              <Option value="am">አማርኛ</Option>
+              <Option value="or">Oromiffa</Option>
+              <Option value="so">Somali</Option>
+
               {/* Add more language options as needed */}
             </Select>
             <div>
@@ -170,7 +173,7 @@ console.log("session at layout",session)
           </div>
           <div className="py-2 min-h-screen">{children}</div>
         </Content>
-        <Footer className="mx-auto text-center ">
+        <Footer className="mx-auto text-center bg-primary-50 text-xl text-primary ">
           {" "}
           &copy; {new Date().getFullYear()} {""}All Rights Reserved Liyu
           Technologies{" "}

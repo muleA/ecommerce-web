@@ -4,18 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { Button, Typography } from "antd";
 import Report from "./report";
 import { CustomerReviews } from "../shared/review";
-import { RightSideImage } from "../shared/right-side-svg";
 import { LottieAnimation } from "../shared/right-side-lottie";
 
 export default function Carousel() {
   const { session } = useAuth();
-  const router = useNavigate();
 
   return (
     <>
         <div
           className={`relative mb-2 hidden w-full overflow-hidden 
-           mx-auto  overflow-hidden bg-gradient-to-l from-sky-300 to-sky-50  md:block`}
+           mx-auto  overflow-hidden bg-gradient-to-l from-Yellow-30 to-Yellow-50  md:block`}
         >
           <div className="absolute left-0">
                        <img src="./assets/left-hero.png" alt="img" />
@@ -30,7 +28,7 @@ export default function Carousel() {
             <div className="flex h-96  w-full items-start justify-between">
               <div className="mt-2 ml-10 flex h-full w-6/12 items-center lg:mt-6">
                 <div style={{ fontFamily: "Raleway" }}>
-                  <p className="my-2 text-center text-2xl font-semibold leading-snug tracking-normal text-sky-700 md:text-left md:text-2xl lg:text-left lg:text-3xl">
+                  <p className="my-2 text-center text-3xl text-primary-700 font-semibold leading-snug tracking-normal text-sky-700 md:text-left md:text-2xl lg:text-left lg:text-3xl">
                     Welcome to Liyu Restaurants Management System
                   </p>
                   <p
@@ -43,7 +41,7 @@ Are you a restaurant owner looking to expand your reach and connect
 with customers online? Look no further! Liyu Restaurants management System is here to help you take your business to new heights.
  Join our platform and start accepting online orders today!
                   </p>
-                  <div className="flex space-x-3 mb-4 ">
+             {/*      <div className="flex space-x-3 mb-4 ">
                     <Button
                       className="bg-primary hover:text-white text-white"
                       onClick={() => router("/account")}
@@ -51,7 +49,7 @@ with customers online? Look no further! Liyu Restaurants management System is he
                       Sign up
                     </Button>
                     <Button className="bg-primary hover:text-white text-white">Get Started</Button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="mx-2 mt-2 overflow-hidden flex h-full w-6/12 items-center justify-end lg:mt-6">

@@ -4,11 +4,15 @@ import { baseUrl } from '../../configs/config';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Typography from 'antd/es/typography/Typography';
+import { UploadOutlined } from '@mui/icons-material';
+import { useState } from 'react';
 
 const { Item } = Form;
 
 export const Registration = () => {
   const navigate=useNavigate()
+  const [file, setFile] = useState<any>();
+
   const onFinish = async (values: any) => {
     console.log('Received values:', values);
     const formData = new FormData();
@@ -17,7 +21,7 @@ export const Registration = () => {
     formData.append('lastName', values?.lastName);
     formData.append('password', values?.password);
     formData.append('phoneNumber', values?.phoneNumber);
-    formData.append('profilePicture', values?.profilePicture);
+    formData.append('profilePicture', file);
 
     try {
       const response = await axios.post(`${baseUrl}auth/signup`, formData, {
@@ -32,15 +36,14 @@ export const Registration = () => {
       console.log('Response:', response.data);
       message.success('Successfully registered');
       navigate("/dashboard")
-    } catch (err) {
+    } catch (err:any) {
       console.error('Error:', err);
-      message.error('An error occurred during registration');
+      message.error(err.response?.data.data?.message as any);
     }
   };
 
-  const beforeUpload = (file: any) => {
-    // Validate and perform any necessary checks on the uploaded logo file
-    return true;
+  const handleFileChange = (file: any) => {
+    setFile(file);
   };
 
 
@@ -114,16 +117,30 @@ export const Registration = () => {
             </Item>
           </div>
           <div className="flex w-full items-center">
-            <Item
-              label="Profile Picture"
-              name="profilePicture"
-              className='w-full'
-              rules={[{ required: true, message: 'Please upload your profile picture' }]}
-            >
-              <Upload className='w-full' beforeUpload={beforeUpload}>
-                <Button icon={<Upload />}>Upload Picture</Button>
-              </Upload>
-            </Item>
+          <Form.Item
+                            name="profilePicture"
+                            label="profilePicture"
+                            className="flex space-x-10"
+                            rules={[
+                              {
+                                required: true,
+                                message: "Please upload a file",
+                              },
+                            ]}
+                          >
+                            <Upload
+                              name="profilePicture"
+                              listType="picture"
+                              beforeUpload={(file) => {
+                                handleFileChange(file);
+                                return false;
+                              }}
+                            >
+                              <Button icon={<UploadOutlined />}>
+                                Click to upload
+                              </Button>
+                            </Upload>
+                          </Form.Item>
           </div>
           <div className="mb-2 py-1 px-6">
             <Button type="primary" htmlType="submit" className="w-full bg-primary text-white">

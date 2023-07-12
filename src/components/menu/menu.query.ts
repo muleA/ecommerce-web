@@ -4,17 +4,24 @@ import { roleEndPoints } from "./menu-endpoint";
 const roleApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
  
-    getRoleByRoleId: builder.query<any, string>({
-      query: (roleId) => ({
-        url: `${roleEndPoints.getOrderByUserId}/${roleId}`,
+    getMenuById: builder.query<any, string>({
+      query: (menu) => ({
+        url: `${roleEndPoints.getMenu}/${menu}`,
         method: "GET",
       }),
       providesTags: ["Order"],
-    }),  
+    }), 
+    getMenus: builder.query<any, string>({
+      query: (menu) => ({
+        url: `${roleEndPoints.getMenu}/${menu}`,
+        method: "GET",
+      }),
+      providesTags: ["Order"],
+    }),   
     
-    createRole: builder.mutation<any, any>({
+    createMenu: builder.mutation<any, any>({
       query: (newRole) => ({
-        url: roleEndPoints.getOrderByUserId,
+        url: roleEndPoints.getMenu,
         method: "POST",
         data: newRole,
       }),
@@ -25,6 +32,7 @@ const roleApi = apiSlice.injectEndpoints({
 });
 
 export const {
-  useGetRoleByRoleIdQuery,
-  useCreateRoleMutation,
+  useGetMenuByIdQuery,
+  useGetMenusQuery,
+  useCreateMenuMutation,
 } = roleApi;

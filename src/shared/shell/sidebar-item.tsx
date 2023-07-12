@@ -37,33 +37,46 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 
   return (
     <AntdMenu
-      mode="inline"
-      defaultOpenKeys={open ? [menu.path] : []}
-      onOpenChange={handleOpenChange}
-      selectedKeys={[location.pathname]}
-    >
-      {menu.child && (
-        <SubMenu
-          key={menu.path}
-          title={
-            <span className="flex justify-center items-center">
-              <Icon style={{ marginRight: "5px",marginTop:"0px" }} />
-              {menu.name}
+    mode="inline"
+    defaultOpenKeys={open ? [menu.path] : []}
+    onOpenChange={handleOpenChange}
+    selectedKeys={[location.pathname]}
+    className="flex justify-center items-center bg-primary-50  mr-10"
+  >
+    {menu.child && (
+      <SubMenu
+        key={menu.path}
+        title={
+          <span>
+            <span className="flex items-center">
+              <Icon style={{ marginRight: "5px", marginTop: "0px" }} />
+              <span>{menu.name}</span>
             </span>
-          }
-        >
-          {renderSubMenu(menu.child)}
-        </SubMenu>
-      )}
-      {!menu.child && (
-        <AntdMenu.Item key={`${mergedPath}${menu.path}`} className={`${location.pathname.startsWith(`${mergedPath}${menu.path}`) && `${mergedPath}${menu.path}` !== "/" ? "active-menu" : ""}`}>
-          <Link to={`${mergedPath}${menu.path}`}>
-            <Icon style={{ marginRight: "5px",marginTop:"2px" }} />
-            {menu.name}
-          </Link>
-        </AntdMenu.Item>
-      )}
-    </AntdMenu>
+          </span>
+        }
+      >
+        {renderSubMenu(menu.child)}
+      </SubMenu>
+    )}
+    {!menu.child && (
+      <AntdMenu.Item
+        key={`${mergedPath}${menu.path}`}
+        className={`${
+          location.pathname.startsWith(`${mergedPath}${menu.path}`) &&
+          `${mergedPath}${menu.path}` !== "/"
+            ? "active-menu"
+            : ""
+        }`}
+      >
+        <Link to={`${mergedPath}${menu.path}`}>
+          <span className="flex items-center">
+            <Icon style={{ marginRight: "0px", marginTop: "2px" }} />
+            <span>{menu.name}</span>
+          </span>
+        </Link>
+      </AntdMenu.Item>
+    )}
+  </AntdMenu>
   );
 };
 

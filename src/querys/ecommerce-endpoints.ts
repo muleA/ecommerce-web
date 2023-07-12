@@ -5,5 +5,5 @@ export const eCommerceEndpoints = {
   createUser: `${baseUrl}auth/signup`,
   createRestaurant: `${baseUrl}restaurants`,
   getRestaurant: `${baseUrl}restaurants`,
-
+  
 };

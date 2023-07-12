@@ -10,9 +10,23 @@ const ecommerceApi = apiSlice.injectEndpoints({
         }),
         providesTags: ["Order"],
       }),  
-    getOrders: builder.query<any, string>({
+    getOrdersById: builder.query<any, string>({
       query: (option) => ({
         url: `${eCommerceEndpoints.getRestaurant}/${option}/orders`,
+        method: "GET",
+      }),
+      providesTags: ["Order"],
+    }),  
+    getOrders: builder.query<any, string>({
+      query: (option) => ({
+        url: `${eCommerceEndpoints.getOrderByUserId}`,
+        method: "GET",
+      }),
+      providesTags: ["Order"],
+    }),  
+    getOrder: builder.query<any, string>({
+      query: (option) => ({
+        url: `${eCommerceEndpoints.getOrderByUserId}/${option}`,
         method: "GET",
       }),
       providesTags: ["Order"],
@@ -71,6 +85,9 @@ export const {
     useGetNotificationsQuery,useGetOrdersQuery,
     useGetReviewsQuery,useGetSchedulesQuery,
 useGetRestaurantsQuery,
-useLazyGetRestaurantsQuery
+useLazyGetRestaurantsQuery,
+useLazyGetOrdersQuery,
+useGetOrdersByIdQuery,
+useGetOrderQuery
 
 } = ecommerceApi;

@@ -2,11 +2,10 @@ import { Card, Spin } from "antd";
 
 import Chart from "../components/dashboard/chart";
 import SimplePieChart from "../components/dashboard/pie-chart";
-import { Hotel, Money, SellOutlined } from "@mui/icons-material";
+import {  Money } from "@mui/icons-material";
 import {
   MenuOutlined,
   OrderedListOutlined,
-  DatabaseOutlined,
   StarOutlined,
 } from "@ant-design/icons";
 import { useGetRestaurantsQuery } from "../querys/ecommerce-query";
@@ -31,28 +30,23 @@ export function Dashboard() {
     isLoading || restaurantLoading || driverLoading || ordersLoading;
   const dashBoardData = [
     {
-      icon: <OrderedListOutlined style={{ fontSize: "36px" }} />,
+      icon: <OrderedListOutlined style={{ fontSize: "48px" }} />,
       label: "Total Orders",
       value: orders?.data?.metadata?.total ?? 5,
-      className: "bg-purple-500 text-white",
+      className: "bg-primary-400 text-white",
     },
     {
-      icon: <MenuOutlined style={{ fontSize: "36px" }} />,
+      icon: <MenuOutlined style={{ fontSize: "46px" }} />,
       label: "Total Menus",
       value: drivers?.data?.metadata?.total ?? 10,
       className: "bg-yellow-500 text-white",
     },
+
     {
-      icon: <Money style={{ fontSize: "36px" }} />,
-      label: "Total Sales",
-      value: restaurants?.data?.metadata?.total ?? 20,
-      className: "bg-green-500 text-white",
-    },
-    {
-      icon: <StarOutlined style={{ fontSize: "36px" }} />,
+      icon: <StarOutlined style={{ fontSize: "48px" }} />,
       label: "Total Reviews",
       value: users?.data?.metadata?.total ?? 4,
-      className: "bg-blue-500 text-white",
+      className: "bg-green-500 text-white",
     },
   ];
 
@@ -67,7 +61,7 @@ export function Dashboard() {
       ) : (
         <>
           <Card className="text-center shadow-lg">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 h-auto sm:h-24">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 h-auto sm:h-24">
               {dashBoardData?.map((item, index) => (
                 <div
                   key={index}

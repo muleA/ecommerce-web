@@ -6,14 +6,18 @@ const containerStyle = {
   width: '100%',
 };
 
-const center = {
-  lat: 9.005401,
-  lng: 38.763612,
-};
 
-const DeliveryLocation = () => {
+
+const PickUpAddress = ({lat,long}:any) => {
+    console.log("lat",lat)
+    console.log("long",long)
+
+    const center = {
+        lat: lat??9.005401,
+        lng: long??38.763612,
+      };
   return (
-    <LoadScript googleMapsApiKey="AIzaSyDTF0CBwkgcLVTFJScwyvtiik2XxN_Bqwk">
+    <LoadScript googleMapsApiKey="">
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
         <Marker position={center} />
       </GoogleMap>
@@ -21,4 +25,4 @@ const DeliveryLocation = () => {
   );
 };
 
-export default DeliveryLocation;
+export default PickUpAddress;

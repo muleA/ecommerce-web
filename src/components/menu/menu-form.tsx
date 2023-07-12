@@ -1,8 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Checkbox, Button, Input, message, Select } from 'antd';
+import {  Button, Input, message, Select } from 'antd';
 import * as Yup from 'yup';
-import { useCreateRoleMutation } from './menu.query';
+import { useCreateMenuMutation } from './menu.query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DeleteFilled, SaveFilled } from '@ant-design/icons';
 import { Edit } from '@mui/icons-material';
@@ -14,9 +14,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const MenuForm = (props: { mode: "new" | 'update', id?: string,data?:any }) => {
-  const [createRole, { isLoading }] = useCreateRoleMutation();
-  const [updateRole, { isLoading:updateLoading }] = useCreateRoleMutation();
-  const [deleteRole, { isLoading:deleteLoading }] = useCreateRoleMutation();
+  const [createRole, { isLoading }] = useCreateMenuMutation();
+  const [updateRole, { isLoading:updateLoading }] = useCreateMenuMutation();
+  const [deleteRole, { isLoading:deleteLoading }] = useCreateMenuMutation();
 const {id}=useParams()
   const navigate = useNavigate();
   const handleDelete=async ()=>{

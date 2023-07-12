@@ -1,4 +1,4 @@
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar,XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 
 const Chart = ({ data }:any) => {
@@ -25,14 +25,14 @@ const Chart = ({ data }:any) => {
     return (
       <div className="w-2/3">
       <div className="bg-white p-5 rounded-2xl shadow-lg mr-4 mb-2">
-        <h2 className="text-xl mb-4"> Bar Chart (Orders, Menus, Sells, Reviews) </h2>
+        <h2 className="text-xl mb-4 text-primary"> Bar Chart (Orders, Menus, Sells, Reviews) </h2>
         <BarChart width={600} height={400} data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />
-          <Tooltip labelStyle={{ color: '#8884d8' }} />
+          <Tooltip labelStyle={{ color: '#f87171' }} />
           <Legend />
-          <Bar dataKey="value" fill="#8884d8" />
+          <Bar dataKey="value" fill="#f87171" />
         </BarChart>
       </div>
     </div>

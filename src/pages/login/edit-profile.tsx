@@ -1,9 +1,11 @@
 import {  Form, Input, Button, message, Spin, Upload, Card } from 'antd';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useCreateRestaurantMutation, useGetRestaurantsQuery, useLazyGetRestaurantsQuery, useUpdateRestaurantMutation } from '../../querys/ecommerce-query';
+import { useCreateRestaurantMutation, useLazyGetRestaurantsQuery, useUpdateRestaurantMutation } from '../../querys/ecommerce-query';
+import { useAuth } from '../../shared/auth/use-auth';
+import { UploadOutlined } from '@mui/icons-material';
 
 const MyProfileInfo = (props: { id?: string, mode: "new" | "update" }) => {
   const [createRestaurant, { isLoading: isCreating }] = useCreateRestaurantMutation();
@@ -15,8 +17,6 @@ const MyProfileInfo = (props: { id?: string, mode: "new" | "update" }) => {
     name: Yup.string().required('Name is required'),
     logo: Yup.mixed().required('Logo is required'),
     address: Yup.string().required('Address is required'),
-    owner: Yup.string().required('Owner is required'),
-    state: Yup.string().required('State is required'),
     phoneNumber: Yup.string().required('Phone number is required'),
     description: Yup.string().required('Description is required'),
   });
@@ -29,12 +29,31 @@ const MyProfileInfo = (props: { id?: string, mode: "new" | "update" }) => {
       trigger(id);
     }
   }, [id, trigger]);
-
+  const [file, setFile] = useState<any>();
+  const handleFileChange = (file: any) => {
+    setFile(file);
+  };
+  const {session}=useAuth()
+   console.log("session",session)
   // Define the form submission function
+
+
   const handleSubmit = async (values: any) => {
+      console.log("values",values)
+    const formData = new FormData();
+    formData.append("logo", file);
+    formData.append("description", values?.description);
+    formData.append("name", values?.name);
+    formData.append("state", "Active");
+    formData.append("owner", session?.userInfo?._id);
+    formData.append("address", JSON.stringify({
+      name: values?.address,
+      location: { coordinates: [38.763611, 9.005401] }
+    }));
+    
     try {
       if (props.mode === 'new') {
-        await createRestaurant(values);
+        await createRestaurant(formData);
         message.success('Restaurant created successfully');
       } else if (props.mode === 'update') {
         await updateRestaurant({ id: props.id, ...values });
@@ -51,8 +70,6 @@ const MyProfileInfo = (props: { id?: string, mode: "new" | "update" }) => {
       name: '',
       logo: null,
       address: '',
-      owner: '',
-      state: '',
       phoneNumber: '',
       description: '',
     },
@@ -71,8 +88,8 @@ const MyProfileInfo = (props: { id?: string, mode: "new" | "update" }) => {
   console.log("restaurant", restaurant);
   useEffect(() => {
     if (props.mode === 'update' && restaurant) {
-      const { name, logo, address, owner, state, phoneNumber, description } = restaurant?.data?.restaurants;
-      formik.setValues({ name, logo, address, owner, state, phoneNumber, description });
+      const { name, logo, address, phoneNumber, description } = restaurant?.data?.restaurants;
+      formik.setValues({ name, logo, address, phoneNumber, description });
     }
   }, [props.mode, restaurant, formik]);
 
@@ -86,71 +103,65 @@ const MyProfileInfo = (props: { id?: string, mode: "new" | "update" }) => {
         <Card  title="Register Your Restaurant Information">
              <Form layout="vertical"  onFinish={formik.handleSubmit}>
           {props.mode === 'new' && (
-            <Form.Item label="Logo" className='bg-white' required>
-              <Upload
-                accept="image/*"
-                name="logo"
-                listType="picture"
-                beforeUpload={(file) => {
-                  formik.setFieldValue('logo', file);
-                  return false;
-                }}
-              >
-                <Button>Select Logo</Button>
-              </Upload>
-              {formik.touched.logo && formik.errors.logo && (
-                <div className="text-red-500">{formik.errors.logo}</div>
-              )}
-            </Form.Item>
-          )}
-          <Form.Item label="Name" required>
-            <Input name="name" value={formik.values.name} onChange={formik.handleChange} />
-            {formik.touched.name && formik.errors.name && (
-              <div className="text-red-500">{formik.errors.name}</div>
-            )}
-          </Form.Item>
-          <Form.Item label="Address" required>
-            <Input name="address" value={formik.values.address} onChange={formik.handleChange} />
-            {formik.touched.address && formik.errors.address && (
-              <div className="text-red-500">{formik.errors.address}</div>
-            )}
-          </Form.Item>
-          <Form.Item label="Owner" required>
-            <Input name="owner" value={formik.values.owner} onChange={formik.handleChange} />
-            {formik.touched.owner && formik.errors.owner && (
-              <div className="text-red-500">{formik.errors.owner}</div>
-            )}
-          </Form.Item>
-          <Form.Item label="State" required>
-            <Input name="state" value={formik.values.state} onChange={formik.handleChange} />
-            {formik.touched.state && formik.errors.state && (
-              <div className="text-red-500">{formik.errors.state}</div>
-            )}
-          </Form.Item>
-          <Form.Item label="Phone Number" required>
-            <Input name="phoneNumber" value={formik.values.phoneNumber} onChange={formik.handleChange} />
-            {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-              <div className="text-red-500">{formik.errors.phoneNumber}</div>
-            )}
-          </Form.Item>
-          <Form.Item label="Description" required>
-            <Input name="description" value={formik.values.description} onChange={formik.handleChange} />
-            {formik.touched.description && formik.errors.description && (
-              <div className="text-red-500">{formik.errors.description}</div>
-            )}
-          </Form.Item>
-          <Form.Item>
-            <div className='flex space-x-4'>
-              <Button type="primary" htmlType="submit" className='bg-primary' loading={isCreating || isUpdating}>
-                {props.mode === 'new' ? 'Save' : 'Update'}
-              </Button>
-              {props?.mode !== 'new' && (
-                <Button htmlType="button" className="hover:bg-red-400 hover:text-white text-white bg-red-600">
-                  Delete
-                </Button>
-              )}
-            </div>
-          </Form.Item>
+               <>
+               <Form.Item
+                  name="logo"
+                  label="Logo"
+                  className="flex space-x-10"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please upload a file",
+                    },
+                  ]}
+                >
+                  <Upload
+                    name="logo"
+                    listType="picture"
+                    beforeUpload={(file) => {
+                      handleFileChange(file);
+                      return false;
+                    } }
+                  >
+                    <Button icon={<UploadOutlined />}>
+                      Click to upload
+                    </Button>
+                  </Upload>
+                </Form.Item>
+                </>
+                )}
+                <Form.Item label="Name" required>
+                    <Input name="name" value={formik.values.name} onChange={formik.handleChange} />
+                    {formik.touched.name && formik.errors.name && (
+                      <div className="text-red-500">{formik.errors.name}</div>
+                    )}
+                  </Form.Item><Form.Item label="Address" required>
+                    <Input name="address" value={formik.values.address} onChange={formik.handleChange} />
+                    {formik.touched.address && formik.errors.address && (
+                      <div className="text-red-500">{formik.errors.address}</div>
+                    )}
+                  </Form.Item><Form.Item label="Description" required>
+                    <Input name="description" value={formik.values.description} onChange={formik.handleChange} />
+                    {formik.touched.description && formik.errors.description && (
+                      <div className="text-red-500">{formik.errors.description}</div>
+                    )}
+                  </Form.Item><Form.Item label="Phone Number" required>
+                    <Input name="phoneNumber" value={formik.values.phoneNumber} onChange={formik.handleChange} />
+                    {formik.touched.phoneNumber && formik.errors.phoneNumber && (
+                      <div className="text-red-500">{formik.errors.phoneNumber}</div>
+                    )}
+                  </Form.Item><Form.Item>
+                    <div className='flex space-x-4'>
+                      <Button type="primary" htmlType="submit" className='bg-primary' loading={isCreating || isUpdating}>
+                        {props.mode === 'new' ? 'Save' : 'Update'}
+                      </Button>
+                      {props?.mode !== 'new' && (
+                        <Button htmlType="button" className="hover:bg-red-400 hover:text-white text-white bg-red-600">
+                          Delete
+                        </Button>
+                      )}
+                    </div>
+                  </Form.Item>
         </Form>
         </Card>
      

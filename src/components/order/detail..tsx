@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Breadcrumb, Button, Card, Form, Modal, Select, message } from "antd";
-import { PlusCircleFilled } from "@ant-design/icons";
+import {  Button, Card, Form, Modal, Select, message } from "antd";
 import CollapsibleCard from "../../shared/card";
-import DeliveryLocation from "./delivery-location";
-import { useGetRestaurantsQuery } from "../../querys/ecommerce-query";
+import { useGetOrderQuery } from "../../querys/ecommerce-query";
+import DropOfAddress from "./drop-of-address";
+import PickUpAddress from "./pick-up-address";
 
 function OrderDetail() {
   const { id } = useParams();
-  const { data: role, isLoading: roleLoading } = useGetRestaurantsQuery(
+  const { data: order, isLoading: ordersLoading } = useGetOrderQuery(
     id?.toString() ?? ""
   );
+  console.log("order",order)
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleApproveClick = () => {
     setIsModalVisible(true);
@@ -34,7 +35,8 @@ console.log(err)
    }
   }      
   
-
+console.log("order?.discount?.pickUpAddress?.location?.coordinates[0]",
+order?.data?.discount?.pickUpAddress?.location?.coordinates)
   return (
     <>
       <CollapsibleCard title={"Order Details"}>
@@ -46,23 +48,18 @@ console.log(err)
     <tr className="border-b border-gray-200">
       <td className="px-4 py-2 font-bold">Food Item</td>
       <td className="px-8 py-2 font-bold">Quantity</td>
-      <td className="px-8 py-2 font-bold">Remark</td>
+      <td className="px-8 py-2 font-bold">Unit Amount</td>
+      <td className="px-8 py-2 font-bold">Total Amount</td>
+
     </tr>
     <tr className="border-b border-gray-200">
-      <td className="px-4 py-2">Pasta</td>
-      <td className="px-8 py-2">2</td>
-      <td className="px-8 py-2">-</td>
+      <td className="px-4 py-2">{order?.data?.discount?.items[0]?.foodItem}</td>
+      <td className="px-8 py-2">{order?.data?.discount?.items[0]?.quantity}</td>
+      <td className="px-8 py-2">{order?.data?.discount?.items[0]?.unitAmount}</td>
+      <td className="px-8 py-2">{order?.data?.discount?.items[0]?.totalAmount}</td>
+
     </tr>
-    <tr className="border-b border-gray-200">
-      <td className="px-4 py-2">Pizza</td>
-      <td className="px-8 py-2">1</td>
-      <td className="px-8 py-2">Extra cheese</td>
-    </tr>
-    <tr className="border-b border-gray-200">
-      <td className="px-4 py-2">Salad</td>
-      <td className="px-8 py-2">3</td>
-      <td className="px-8 py-2">No dressing</td>
-    </tr>
+    
     {/* Add more rows for additional food items */}
   </tbody>
 </table>
@@ -73,8 +70,13 @@ console.log(err)
 
         </Card>
       </CollapsibleCard>
-      <CollapsibleCard title={"Delivery Location"} subTitle="clients location">
-       <DeliveryLocation/>
+      <CollapsibleCard title={"Pick Up Address"} subTitle={`Drivers Pick Up Address`}>
+       <PickUpAddress lat={order?.data?.discount?.pickUpAddress?.location?.coordinates[0]} 
+       long={order?.data?.discount?.pickUpAddress?.location?.coordinates[1]}/>
+      </CollapsibleCard>
+      <CollapsibleCard title={"Drop  of Address"} subTitle={`Drivers Drop Of Address  ${order?.data?.discount?.dropOffAddress?.name}`}>
+       <DropOfAddress lat={order?.data?.discount?.pickUpAddress?.location?.coordinates[0]} 
+       long={order?.data?.discount?.pickUpAddress?.location?.coordinates[1]}/>
       </CollapsibleCard>
       <Modal
             title="Change Status"
