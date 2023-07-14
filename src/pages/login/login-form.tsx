@@ -26,6 +26,7 @@ const LoginForm = () => {
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
+      localStorage.setItem('password',values?.password)
        submitLoginRequest(values);
     },
   });

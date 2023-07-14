@@ -8,8 +8,9 @@ import {  useGetOrdersQuery } from "../../querys/ecommerce-query";
 
 export function MyOrderList() {
   const navigate = useNavigate();
-  const {session}=useAuth()
-  const { data: orders, isLoading, isSuccess, isError, isFetching } = useGetOrdersQuery("0");
+  const restaurantId=localStorage?.getItem('restaurantId')
+   console.log('restaurantId',restaurantId)
+  const { data: orders, isLoading, isSuccess, isError, isFetching } = useGetOrdersQuery(restaurantId??"");
   const handleRowClick = (row: any) => {
     console.log("row",row)
     navigate(`/order/detail/${row?.original._id}`);

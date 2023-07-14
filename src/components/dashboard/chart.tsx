@@ -25,7 +25,7 @@ const Chart = ({ data }:any) => {
     return (
       <div className="w-2/3">
       <div className="bg-white p-5 rounded-2xl shadow-lg mr-4 mb-2">
-        <h2 className="text-xl mb-4 text-primary"> Bar Chart (Orders, Menus, Sells, Reviews) </h2>
+        <h2 className="text-xl mb-4 text-primary"> Bar Chart (Orders, Menus, Reviews) </h2>
         <BarChart width={600} height={400} data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />

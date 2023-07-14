@@ -49,13 +49,17 @@ const HomePage = () => {
 
   return (
     <Layout className="min-h-screen bg-primary-50 overflow-x-hidden">
-      <Header className="bg-primary-50 shadow-md">
+      <Header className="bg-primary-50">
         <div className="flex items-center justify-between mx-2 sm:mx-4 md:mx-8 lg:mx-12">
           <div className="flex items-center">
-            <img src="./assets/logo.svg" alt="logo" className="mr-2" />
-            <span className={`ml-2 font-bold text-primary ${collapsed ? 'hidden' : 'block'}`}>
-              Liyu Technologies
-            </span>
+          <div className="flex flex-col h-24 bg-red-500 text-primary h-14 bg-white shadow-lg border-b justify-center items-center">
+  <img
+    src={process.env.PUBLIC_URL + '/assets/liyulogo.jpg'}
+    alt="Logo"
+    className="h-full w-auto max-h-full max-w-full"
+  />
+</div>
+
           </div>
           <Button
             type="primary"

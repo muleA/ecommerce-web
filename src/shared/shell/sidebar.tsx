@@ -29,7 +29,7 @@ const Sidebar = (): JSX.Element => {
     <List
     dataSource={visibleMenu}
     bordered={true}
-    className="mt-4 mr-2 bg-primary-50"
+    className="mt-14 mr-2 bg-primary-50"
     grid={{
       gutter: 16,
       xs: 1,
@@ -41,7 +41,7 @@ const Sidebar = (): JSX.Element => {
     }}
   >
     {visibleMenu.map((menuItem, index) => (
-      <List.Item key={`${index}-${menuItem.name}`}>
+      <List.Item  key={`${index}-${menuItem.name}`}>
         <SidebarItem menu={menuItem} mergedPath={""} />
       </List.Item>
     ))}

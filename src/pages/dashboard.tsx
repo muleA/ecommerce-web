@@ -2,50 +2,51 @@ import { Card, Spin } from "antd";
 
 import Chart from "../components/dashboard/chart";
 import SimplePieChart from "../components/dashboard/pie-chart";
-import {  Money } from "@mui/icons-material";
 import {
   MenuOutlined,
   OrderedListOutlined,
   StarOutlined,
 } from "@ant-design/icons";
-import { useGetRestaurantsQuery } from "../querys/ecommerce-query";
+import {
+  useGetMenusQuery,
+  useGetOrderQuery,
+  useGetReviewsQuery,
+} from "../querys/ecommerce-query";
 
 export function Dashboard() {
   const data = [
     { status: "Orders", value: 10 },
     { status: "Menus", value: 20 },
-    { status: "Sells", value: 30 },
     { status: "Reviews", value: 15 },
   ];
+  const restaurantId = localStorage.getItem("restaurantId");
 
-  const { data: users, isLoading } = useGetRestaurantsQuery("0");
-  const { data: restaurants, isLoading: restaurantLoading } =
-    useGetRestaurantsQuery("0");
-  const { data: drivers, isLoading: driverLoading } =
-    useGetRestaurantsQuery("0");
-
-  const { data: orders, isLoading: ordersLoading } =
-    useGetRestaurantsQuery("0");
-  const isLoad =
-    isLoading || restaurantLoading || driverLoading || ordersLoading;
+  const { data: orders, isLoading } = useGetOrderQuery(restaurantId ?? "");
+  const { data: menus, isLoading: restaurantLoading } = useGetMenusQuery(
+    restaurantId ?? ""
+  );
+  const { data: reviews, isLoading: ordersLoading } = useGetReviewsQuery(
+    restaurantId ?? ""
+  );
+  const isLoad = isLoading || restaurantLoading || ordersLoading;
   const dashBoardData = [
     {
       icon: <OrderedListOutlined style={{ fontSize: "48px" }} />,
       label: "Total Orders",
-      value: orders?.data?.metadata?.total ?? 5,
+      value: orders?.data?.metadata?.total ?? 0,
       className: "bg-primary-400 text-white",
     },
     {
       icon: <MenuOutlined style={{ fontSize: "46px" }} />,
       label: "Total Menus",
-      value: drivers?.data?.metadata?.total ?? 10,
+      value: menus?.data?.metadata?.total ?? 0,
       className: "bg-yellow-500 text-white",
     },
 
     {
       icon: <StarOutlined style={{ fontSize: "48px" }} />,
       label: "Total Reviews",
-      value: users?.data?.metadata?.total ?? 4,
+      value: reviews?.data?.metadata?.total ?? 0,
       className: "bg-green-500 text-white",
     },
   ];

@@ -5,7 +5,6 @@ import { LoginRequest } from "../models/login-request";
 import { Session } from "../models/session";
 import { getCurrentSession } from "../shared/current-session";
 import { baseUrl } from "../configs/config";
-import { message } from "antd";
 
 interface AuthState {
   session: Session;
@@ -35,24 +34,23 @@ export const authSlice = createSlice({
   },
 });
 
-export function logIn(request: LoginRequest) {
+export function logIn(request: LoginRequest, domain?: string, tenant?: string) {
+
+   console.log("request",request)
+   console.log("tenant",tenant)
   return async function logInThunk(dispatch: any, getState: any) {
     try {
       dispatch(setLoading(true)); // Start loading
 
       const config = {
         headers: {
-          "X-Domain": "System",
-          "X-Tenant": "System",
+          "X-Domain": `${request?.domain??"User"}`,
+          "X-Tenant": `${request?.tenant}`,
         },
       };
-      const response = await axios.post(
-        `${baseUrl}auth/login`,
-      request,
-      config
-      );
+      const response = await axios.post(`${baseUrl}auth/login`, request, config);
 
-      console.log("response gtt",response?.data?.data)
+      console.log("response gtt", response?.data?.data);
       dispatch(setSession({ accessToken: response.data, userInfo: response?.data?.data?.user }));
     } catch (error: any) {
       // Handle error
@@ -61,6 +59,7 @@ export function logIn(request: LoginRequest) {
     }
   };
 }
+
 
 
 export const { setSession, logOut, setLoading } = authSlice.actions;

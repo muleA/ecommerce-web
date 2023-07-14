@@ -26,8 +26,7 @@ export const Registration = () => {
     try {
       const response = await axios.post(`${baseUrl}auth/signup`, formData, {
         headers: {
-          'X-DOMAIN': 'Restaurant',
-          'X-Tenant': 'Restaurant',
+          'X-DOMAIN': 'User',
           'Content-Type': 'multipart/form-data',
         },
       });

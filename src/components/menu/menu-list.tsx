@@ -9,7 +9,8 @@ import timeSince from "../../shared/utilities/time-since";
 
 export function MyMenuLists() {
   const navigate = useNavigate();
-  const { data: menus, isLoading, isError, isFetching } = useGetMenusQuery("0");
+  const restaurantId=localStorage?.getItem('restaurantId')
+  const { data: menus, isLoading, isError, isFetching } = useGetMenusQuery(restaurantId??"");
   const handleRowClick = (row: any) => {
     console.log("row",row)
     navigate(`/menus/detail/${row?.original._id}`);

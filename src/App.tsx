@@ -22,6 +22,10 @@ import { Myreviews } from "./components/review/reviews";
 import { MySchedule } from "./components/schedule/schedule";
 import DetailSchedule from "./components/schedule/detail.";
 import NewSchedule from "./components/schedule/new-schedule";
+import { MyRestaurants } from "./components/restaurant/restaurant-list";
+import DetailRestaurant from "./components/restaurant/detail.";
+import NewRestaurant from "./components/restaurant/new";
+import RestaurantSelectorPage from "./shared/restaurant-selector-page";
 const App = () => {
   const { session } = useAuth();
   console.log("session at ", session);
@@ -33,7 +37,7 @@ const App = () => {
     if (session === null && location.pathname !== "/") {
       navigate("/");
     } else if (session && location.pathname === "/") {
-      navigate("/dashboard");
+      navigate("/selector-page");
     }
   }, [session, location.pathname, navigate]);
   return (
@@ -43,6 +47,15 @@ const App = () => {
         <Provider store={store}>
           <Routes>
             <Route path="/" element={<HomePage />} />
+           {location.pathname !== "/login"?(<>
+            <Route path="/selector-page" element={<RestaurantSelectorPage />} />
+            
+            <Route path="/restaurants" element={<MyRestaurants />} />
+
+<Route path="/restaurants/detail/:id" element={<DetailRestaurant/>}/>
+<Route path="/restaurants/new" element={<NewRestaurant/>}/>
+           </>):null} 
+
             {session !== null && (
               <Route
                 path="*"
@@ -58,8 +71,8 @@ const App = () => {
                       <Route path="/schedule/detail/:id" element={<DetailSchedule/>}/>
                       <Route path="/schedule/new" element={<NewSchedule/>}/>
                       <Route path="/menus" element={<MyMenuLists />} />
-                      <Route path="/menus/detail/:id" element={<DetailMenu/>}/>
-                      <Route path="/menus/new" element={<NewMenu/>}/>
+                      <Route path="/menus/new" element={<NewMenu />} />
+
                       <Route path="/orders" element={<MyOrderList />} />
                       <Route path="/order/detail/:id" element={<OrderDetail/>}/>
                       <Route path="/my-profile" element={<MyProfile />} />

@@ -1,40 +1,39 @@
 import {
     CaretDownOutlined,
     LogoutOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
     BellOutlined,
     DownOutlined,
     UserOutlined,DoubleRightOutlined,DoubleLeftOutlined
   } from "@ant-design/icons";
   import { Breadcrumb, Dropdown, Layout, Menu, Select } from "antd";
-  import React, { useState } from "react";
-  import { Link, Route, Routes, useLocation } from "react-router-dom";
+  import React, { useEffect, useState } from "react";
+  import { Link, useLocation } from "react-router-dom";
   import { useAuth } from "../shared/auth/use-auth";
-  import HomePage from "../pages/home"; 
 import Sidebar from "../shared/shell/sidebar";
-import { MyProfile } from "./my-profile";
-import { MyOrderList } from "./order/order-list";
-import { MyMenuLists } from "./menu/menu-list";
-import OrderNotificationsPage from "./notifications";
-import { Dashboard } from "../pages/dashboard";
-import { SVGLogo } from "./svg-logo";
 import TimeCounter from "./live-timer";
-import DashboardGreeting from "./dashboard-greeting";
 import { useTranslation } from "react-i18next";
-  const { Sider, Content, Header, Footer } = Layout;
-  const { SubMenu } = Menu;
+import DashboardGreeting from "./dashboard-greeting";
+  const { Sider, Content, Footer } = Layout;
   const { Option } = Select;
  
   const LayoutWrapper = ({ children }: any) => {
-    const { i18n,t } = useTranslation();
 
+
+    const { submitLoginRequest } = useAuth();    
+    const { i18n,t } = useTranslation();
     const changeLanguage = (event: any) => {
       const selectedLanguage = event;
       i18n.changeLanguage(selectedLanguage);
     };
+    const selected:any=localStorage.getItem('selectedRestaurant')
+
+
+   useEffect(()=>{
+    localStorage.setItem("restaurantId",selected);
+   },[selected])
+
+  
     const {session}=useAuth()
-console.log("session at layout",session)
     const [collapsed, setCollapsed] = useState(false);
     const { logOut } = useAuth();
     const handleLogOut = (): void => {
@@ -73,22 +72,34 @@ console.log("session at layout",session)
     const formattedDate = `${currentDate.toLocaleString("en-us", {
       month: "short",
     })} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
-    
-  
+
+useEffect(()=>{
+  if(selected)
+  {
+    submitLoginRequest({
+      email:session?.userInfo?.email,
+      password:localStorage.getItem('password') as any,
+      domain:"Restaurant",
+      tenant:selected
+    })
+  }
+},[selected])
+   
     return (
       <div className="flex bg-primary-50 text-lg border-r">
       <Sider
-          width={200}
+          width={250}
           trigger={null}
           collapsible
           collapsed={collapsed}
           className="border-r bg-primary-50"
           theme="light"
         >
-          <div className="flex flex-col  justify-center items-center py-1">
-          <SVGLogo/>
-          </div>
-          <Sidebar />
+             <div className="flex text-600 flex-col  h-14 bg-white  shadow-lg  border-b justify-center items-center">
+<img src={process.env.PUBLIC_URL + '/assets/liyulogo.jpg'} alt="Logo"  height="100%" width={"100%"} />
+</div>
+                <Sidebar />
+ 
         </Sider>
   
         <div className="flex-1 bg-primary" style={{ minHeight: "100vh" }}>
@@ -107,7 +118,8 @@ console.log("session at layout",session)
             </div>
             <DashboardGreeting
               userFullName={`${session?.userInfo?.firstName} ${session?.userInfo?.lastName}` }
-            />
+            /> 
+  
           </div>
 
           <div className="flex justify-center text-primary items-center space-x-4">
@@ -151,7 +163,7 @@ console.log("session at layout",session)
           </div>
         </div>
         {/*  */} {/* Body */}
-        <Content className="py-2 px-4 bg-white">
+          <Content className="py-2 px-4 bg-white">
           {/*  Page Title and Breadcrumb */}
           <div className="flex mb-4 mt-4">
             <div className="flex-1">
@@ -173,6 +185,7 @@ console.log("session at layout",session)
           </div>
           <div className="py-2 min-h-screen">{children}</div>
         </Content>
+    
         <Footer className="mx-auto text-center bg-primary-50 text-xl text-primary ">
           {" "}
           &copy; {new Date().getFullYear()} {""}All Rights Reserved Liyu

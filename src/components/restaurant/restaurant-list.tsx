@@ -3,71 +3,73 @@ import React, { useMemo } from "react";
 import { MaterialReactTable } from 'material-react-table';
 import { MRT_ColumnDef } from 'material-react-table';
 import { DefaultPage } from "../../shared/default-page";
+import { Typography } from "antd";
+import timeSince from "../../shared/utilities/time-since";
 import { useGetRestaurantsQuery } from "../../querys/ecommerce-query";
 
-export function MySchedule() {
+export function MyRestaurants() {
   const navigate = useNavigate();
-  const { data: restaurants, isLoading,isFetching,isError } = useGetRestaurantsQuery("0");
+  const { data: menus, isLoading, isError, isFetching } = useGetRestaurantsQuery("0");
   const handleRowClick = (row: any) => {
     console.log("row",row)
-    navigate(`/schedule/detail/${row?.original.id}`);
+    navigate(`/restaurants/detail/${row?.original._id}`);
   };
-  const scheduleList = [
-    {
-      day: 'monday',
-      openTime: '09:00',
-      closeTime: '18:00',
-    },
-    {
-      day: 'tuesday',
-      openTime: '10:30',
-      closeTime: '19:30',
-    },
-    {
-      day: 'wednesday',
-      openTime: '08:00',
-      closeTime: '17:00',
-    },
-    // Add more schedule objects as needed
-  ];
-  
- 
+
+
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        accessorKey: 'day',
-        header: ' day',
+        accessorKey: 'logo',
+        header: 'Logo',
+        accessorFn: (originalRow) => (
+          <Typography style={{width:"50px",height:"70px"}}>
+{originalRow?.logo}
+          </Typography>
+        ),
       },
       {
-        accessorKey: 'openTime',
-        header: ' openTime',
+        accessorKey: 'name',
+        header: ' Name',
       },
       {
-        accessorKey: 'closeTime',
-        header: ' closeTime',
+        accessorKey: 'description',
+        header: ' Description',
       },
-   
- 
-   
-     
+      {
+        accessorKey: 'phoneNumber',
+        header: ' Phone Number',
+      },
+      {
+        accessorKey: 'state',
+        header: ' Status',
+      },
+      {
+        accessorKey: 'createdAt',
+        header: 'Registered',
+        accessorFn: (originalRow) => (
+          <Typography>
+            {timeSince(originalRow?.createdAt)}
+          </Typography>
+        ),
+      },
     ],
     []
   );
 
   return (
     <>
- <DefaultPage title={""} backButtonLink="/orders"  
+ <DefaultPage title={""} backButtonLink="/"  
    primaryButtonProps={{
       children: "New",
       onClick: () => {
-        navigate("/schedule/new")
+        navigate("/restaurants/new")
       },
     }}  >
   <div>
   <MaterialReactTable
         columns={columns}
-        data={restaurants?.data?.restaurants?.schedules ?? []}
+        data={menus?.data?.restaurants ?? []}
         muiTableBodyRowProps={({ row }) => ({
           onClick: () => handleRowClick(row),
           sx: {
@@ -79,6 +81,7 @@ export function MySchedule() {
         }}
         enableGrouping
         enablePagination
+        manualPagination
         state={{
           isLoading: isLoading,
           showAlertBanner: isError,

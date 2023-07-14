@@ -12,7 +12,7 @@ export const useAuth = (): {
   const session = useAppSelector(selectSession);
   const isLoading = useAppSelector(selectIsLoading);
   const dispatch = useAppDispatch();
-
+console.log("submit login request")
   return {
     session,
     submitLoginRequest: (request: LoginRequest) => {

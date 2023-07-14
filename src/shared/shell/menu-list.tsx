@@ -1,21 +1,13 @@
 import * as Icon from "@ant-design/icons";
 import { Menu } from "../../models/menu";
 export const menus: Menu[] = [
-   /*  {
-        name: "Home",
-        path: "/home",
-        icon: Icon.HomeOutlined,
-    }, */
+ 
     {
         name: "Dashboard",
         path: "/dashboard",
         icon: Icon.DashboardOutlined,
     },
-    {
-        name: "My Profile",
-        path: "/my-profile",
-        icon: Icon.UserOutlined,
-    },
+
     {
       name: "Orders",
       path: "/orders",
